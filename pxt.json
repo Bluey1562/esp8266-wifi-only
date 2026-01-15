@@ -1,0 +1,11 @@
+{
+  "name": "esp8266-wifi-only",
+  "version": "0.0.1",
+  "description": "ESP8266 WiFi connect library for micro:bit",
+  "dependencies": {
+    "core": "*"
+  },
+  "files": [
+    "main.ts"
+  ]
+}
