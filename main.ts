@@ -1,33 +1,19 @@
-/**
- * ESP8266 WiFi Only Library
- */
-
-//% color="#1E90FF" weight=100 icon="\uf1eb"
-namespace esp8266wifi {
-
-    //% blockId=esp_wifi_init
-    //% block="ESP8266 init TX %tx RX %rx baud %baud"
-    export function init(tx: SerialPin, rx: SerialPin, baud: BaudRate) {
+namespace ESP8266 {
+    export function init(tx: SerialPin, rx: SerialPin, baud: number = 115200) {
         serial.redirect(tx, rx, baud)
-        basic.pause(2000)
-    }
-
-    //% blockId=esp_wifi_test
-    //% block="ESP8266 test AT"
-    export function testAT() {
-        serial.writeString("AT\r\n")
+        basic.pause(1000)
+        send("AT")
+        basic.pause(1000)
+        send("AT+CWMODE=1")
         basic.pause(1000)
     }
 
-    //% blockId=esp_wifi_connect
-    //% block="ESP8266 connect WiFi SSID %ssid PASSWORD %pwd"
-    export function connectWiFi(ssid: string, pwd: string) {
-        serial.writeString("AT+CWMODE=1\r\n")
-        basic.pause(1000)
+    export function connectWiFi(ssid: string, password: string) {
+        send(`AT+CWJAP="${ssid}","${password}"`)
+        basic.pause(5000)
+    }
 
-        serial.writeString(
-            "AT+CWJAP=\"" + ssid + "\",\"" + pwd + "\"\r\n"
-        )
-        basic.pause(7000)
+    function send(cmd: string) {
+        serial.writeString(cmd + "\r\n")
     }
 }
